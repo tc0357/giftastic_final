@@ -1,1 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Best Boxers</title>
+</head>
+
+<body>
+    <div id="boxer-buttons">
+        <button data-person="Money Mayweather">Money Mayweather</button>
+        <button data-person="Arturo Gatti">Arturo Gatti</button>
+        <button data-person="Oscar De La Hoya">Oscar De La Hoya</button>
+        <button data-person="Ali">Ali</button>
+        <button data-person="Mike Tyson">Mike Tyson</button>
+    </div>
+
+    <form id="boxers">
+        <!--Just a label for food-input id-->
+        <label for="boxer-input">Add Favorite Boxer</label>
+        <!--creates an id for user input, will create new button-->
+        <input type="text" id="boxer-input">
+        <br>
+        <!--creates an id for submit button-->
+        <input id="add-boxer" type="submit" value="Submit" onclick="btnFunction()">
+    </form>
+    <!--here is where gifs will appear-->
+    <div id="gifs"></div>
+
+    <!--Link to jquery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!--Javascript Beginning-->
+    <script type="text/javascript">
+            //need to create a button from user input
+            function btnFunction() {
+                var inputBtn = $
+            }
+        
+        $("button").on("click", function () {
+            var person = $(this).attr("data-person");
+            //I think q stands for query search phrase
+            //Limit is the amount of gifs displayed after clicked
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+                person + "&api_key=dc6zaTOxFJmzC&limit=5";
+            // Ajax request to API
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            })
+                // When API info is received, runs function
+                .done(function (response) {
+                    var results = response.data;
+                    console.log(results);
+                    for (var i = 0; i < results.length; i++) {
+                        // Response function is run only if PG/PG13
+                        if (results[i].rating !== "r") {
+                            var gifDiv = $("<div class='item'>");
+                            var rating = results[i].rating;
+                            var p = $("<p>").text("Rating: " + rating);
+                            var personImage = $("<img>");
+                            personImage.attr("src", results[i].images.fixed_height.url);
+                            gifDiv.append(p);
+                            gifDiv.append(personImage);
+                            $("#gifs").prepend(gifDiv);
+                        }
+                    }
+                });
+            $("#gifs").on("click", function () {
+                // I want to grab the state of a gif, but don't know how
+                var state = $(this).attr("data-state");
+                //need to create an if/else for clicking animate, still.  But not working because the variable doesn't work
+                if (state === "still") {
+                    $(this).attr("src", $(this).attr("data-animate"));
+                    $(this).attr("data-state", "animate");
+                } else {
+                    $(this).attr("src", $(this).attr("data-still"));
+                    $(this).attr("data-state", "still");
+                }
+            });
+            
+            //create a button from submit
+           
+        });
+    </script>
+</body>
+
+</html>
 
